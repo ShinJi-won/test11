@@ -18,20 +18,31 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+
+      # 백엔드 의존성 설치
       - name: Install backend dependencies
-        run: pip install -r backend/requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install pytest
+
+      # 백엔드 테스트 실행
       - name: Run backend tests
-        run: pytest backend/tests
+        run: python -m pytest backend/tests
 
       # 프론트엔드 Node 설정
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: "18"
+
+      # 프론트엔드 의존성 설치
       - name: Install frontend dependencies
         run: |
           cd frontend
           npm install
+
+      # 프론트엔드 빌드
       - name: Build frontend
         run: |
           cd frontend
